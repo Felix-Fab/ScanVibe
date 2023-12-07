@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "76371607581",
+    "project_id": "scanvibe-barcode",
+    "storage_bucket": "scanvibe-barcode.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76371607581:android:4f4af3d3b5fe0450a706f4",
+        "android_client_info": {
+          "package_name": "tk.felixfab.scanvibe.scanvibe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVeE1uoVPP3CCXdmHX4MIca1lDxhQWKCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
