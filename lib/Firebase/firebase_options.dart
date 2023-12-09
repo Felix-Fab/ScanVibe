@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,16 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyC4y-Ga4w5ZUfZQitTF2rvx5tp18NRSCkw',
+    appId: '1:76371607581:web:c50a93ad24a85f29a706f4',
+    messagingSenderId: '76371607581',
+    projectId: 'scanvibe-barcode',
+    authDomain: 'scanvibe-barcode.firebaseapp.com',
+    storageBucket: 'scanvibe-barcode.appspot.com',
+    measurementId: 'G-N6GJTMNQ0D',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCVeE1uoVPP3CCXdmHX4MIca1lDxhQWKCU',
     appId: '1:76371607581:android:4f4af3d3b5fe0450a706f4',
@@ -64,5 +68,14 @@ class DefaultFirebaseOptions {
     projectId: 'scanvibe-barcode',
     storageBucket: 'scanvibe-barcode.appspot.com',
     iosBundleId: 'tk.felixfab.scanvibe.scanvibe',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBPTvaHVHFFJ-09FVumbrlPvcASzwWes1g',
+    appId: '1:76371607581:ios:a11c5219cb16774ea706f4',
+    messagingSenderId: '76371607581',
+    projectId: 'scanvibe-barcode',
+    storageBucket: 'scanvibe-barcode.appspot.com',
+    iosBundleId: 'tk.felixfab.scanvibe.scanvibe.RunnerTests',
   );
 }
