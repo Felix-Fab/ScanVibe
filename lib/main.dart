@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'Firebase/firebase_controller.dart';
 
@@ -16,13 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Scaffold(
           appBar: AppBar(
             toolbarHeight: 75, // Set this height
-            title: Center(
+            title: const Center(
                 child: Text(
                   style: TextStyle(
                       fontSize: 36,
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
             ),
             foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(10),
               ),
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly, //NOT WORKING!
             children: [
-              Center(
+              const Center(
                   child: Text(
                       style: TextStyle(
                         fontSize: 36,
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   )
               ),
-              Center(
+              const Center(
                   child: Text(
                       style: TextStyle(
                         fontSize: 36,
@@ -105,8 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           ),
-
-
         )
     );
   }
