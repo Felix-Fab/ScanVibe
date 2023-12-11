@@ -11,7 +11,7 @@ class FirebaseController{
         options: DefaultFirebaseOptions.currentPlatform
     );
 
-    _connectDefaultDatabase();
+//    _connectDefaultDatabase();
     _configureProviders();
 
     return "Success";
