@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:scanvibe/Pages/Scanner.dart';
 import 'Firebase/firebase_controller.dart';
+import 'Navigation/Navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,103 +13,41 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
+    final auth = FirebaseAuth.instance;
+
+    return MaterialApp(
+        title: 'ScanVibe',
+        initialRoute: auth.currentUser == null ? '/' : '/navigation',
+        routes: {
+          '/': (context){
+            return SignInScreen(
+              actions: [
+                AuthStateChangeAction<SignedIn>((context, state){
+                  Navigator.pushReplacementNamed(context, '/navigation');
+                }),
+                AuthStateChangeAction<UserCreated>((context, state) {
+                  Navigator.pushReplacementNamed(context, '/navigation');
+                })
+              ],
+            );
+          },
+          '/navigation': (context){
+            return const Navigation();
+            //return Dashboard(user: auth.currentUser!);
+          }
+        },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  String _scanType = "";
-
-  void _setScanType(bool isBarcode) {
-    if (isBarcode) {
-      setState(() {
-        _scanType = "Barcode";
-      });
-    } else {
-      setState(() {
-        _scanType = "QR-Code";
-      });
-    }
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 75, // Set this height
-            title: const Center(
-                child: Text(
-                  style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w700
-                  ),
-                  'Scanner',
-                )
-            ),
-            foregroundColor: Colors.white,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(10),
-              ),
-            ),
-            backgroundColor: Colors.red,
-          ), //AppBar
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly, //NOT WORKING!
-            children: [
-              const Center(
-                  child: Text(
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      "Halten sie den Scanner über den QR-code"
-                  )
-              ),
-              Center(
-                  child: FloatingActionButton(onPressed: () {
-
-                  },
-                      child: PhysicalShape(
-                        elevation: 5.0,
-                        clipper: ShapeBorderClipper(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        color: Colors.orange,
-                      )
-                  )
-              ),
-              const Center(
-                  child: Text(
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      "Barcode"
-                  )
-              )
-            ],
-          ),
-        )
-    );
-  }
-}
