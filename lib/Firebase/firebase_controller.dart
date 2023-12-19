@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 import 'firebase_options.dart';
 
@@ -12,7 +11,7 @@ class FirebaseController{
     );
 
 //    _connectDefaultDatabase();
-    _configureProviders();
+    //_configureProviders();
 
     return "Success";
   }
@@ -25,10 +24,10 @@ class FirebaseController{
     });*/
   }
 
-  static _configureProviders(){
+  /*static _configureProviders(){
     FirebaseUIAuth.configureProviders([
       EmailAuthProvider(),
       //GoogleProvider(clientId: '342782608941-9m78kdhl14t1pbrhl0lqtfgvtmov0jkv.apps.googleusercontent.com'),
     ]);
-  }
+  }*/
 }

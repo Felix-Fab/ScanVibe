@@ -63,7 +63,7 @@ class _ScannerState extends State<Scanner> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly, //NOT WORKING!
             children: [
               Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Center(
                     child: Text(
                         textAlign: TextAlign.center,
@@ -71,7 +71,7 @@ class _ScannerState extends State<Scanner> {
                           fontSize: 32,
                           fontWeight: FontWeight.normal,
                         ),
-                        "Halten sie den Scanner über den " + _scanType
+                        "Halten sie den Scanner über den $_scanType"
                     )
                 ),
               ),
