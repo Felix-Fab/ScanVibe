@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class Scanner extends StatefulWidget {
   const Scanner({super.key});
 
-
   @override
   State<Scanner> createState() => _ScannerState();
 }
@@ -41,26 +40,37 @@ class _ScannerState extends State<Scanner> {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            toolbarHeight: 75, // Set this height
-            title: const Center(
-                child: Text(
-                  style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w700
-                  ),
-                  'Scanner',
-                )
+            toolbarHeight: 75,
+            centerTitle: true,
+            title: const Text(
+              style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w700
+              ),
+              'Scanner',
             ),
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                  size: 35,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              )
+            ],
             foregroundColor: Colors.white,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(10),
               ),
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: const Color(0xff388e3c),
           ), //AppBar
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly, //NOT WORKING!
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),

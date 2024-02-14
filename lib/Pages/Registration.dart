@@ -169,7 +169,7 @@ class PasswordReplyInput extends StatelessWidget {
   }
 }
 
-class RegistrationButton extends StatelessWidget {
+class RegistrationButton extends StatefulWidget {
   const RegistrationButton(
       {super.key,
       required this.emailController,
@@ -184,48 +184,95 @@ class RegistrationButton extends StatelessWidget {
   final Function(String) onLoginError;
 
   @override
+  State<RegistrationButton> createState() => _RegistrationButtonState();
+}
+
+class _RegistrationButtonState extends State<RegistrationButton> {
+  var isLoading = false;
+
+  Future<void> _onSubmit() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    if (widget.emailController.text.isEmpty ||
+        widget.passwordController.text.isEmpty ||
+        widget.passwordReplyController.text.isEmpty) {
+      widget.onLoginError("Fehlende Informationen");
+
+      setState(() {
+        isLoading = false;
+      });
+
+      return;
+    }
+
+    if (widget.passwordController.text != widget.passwordReplyController.text) {
+      widget.onLoginError("Passwörter sind nicht gleich");
+
+      setState(() {
+        isLoading = false;
+      });
+
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: widget.emailController.text,
+          password: widget.passwordController.text);
+
+      if (context.mounted) {
+        setState(() {
+          isLoading = false;
+        });
+
+        QuickAlert.show(
+            title: "Account erstellt",
+            context: context,
+            type: QuickAlertType.success,
+            onConfirmBtnTap: () {
+              context.go('/navigation');
+            });
+      }
+    } on FirebaseAuthException catch (e) {
+      widget.onLoginError(e.code);
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      widget.onLoginError("Unbekannter Fehler aufgetreten");
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 300,
       height: 60,
       padding: const EdgeInsets.only(top: 20),
-      child: ElevatedButton(
+      child: ElevatedButton.icon(
+        onPressed: isLoading ? null : _onSubmit,
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(const Color(0xff4caf50)),
             foregroundColor: MaterialStateProperty.all(Colors.white)),
-        onPressed: () async {
-          if (emailController.text.isEmpty ||
-              passwordController.text.isEmpty ||
-              passwordReplyController.text.isEmpty) {
-            onLoginError("Fehlende Informationen");
-            return;
-          }
-
-          if (passwordController.text != passwordReplyController.text) {
-            onLoginError("Passwörter sind nicht gleich");
-            return;
-          }
-
-          try {
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-
-            if (context.mounted) {
-              QuickAlert.show(
-                  title: "Account erstellt",
-                  context: context,
-                  type: QuickAlertType.success,
-                  onConfirmBtnTap: () {
-                    context.go('/navigation');
-                  });
-            }
-          } on FirebaseAuthException catch (e) {
-            onLoginError(e.code);
-          } catch (e) {
-            onLoginError("Unbekannter Fehler aufgetreten");
-          }
-        },
-        child: const Text('Registrieren'),
+        icon: isLoading
+            ? Container(
+                width: 24,
+                height: 24,
+                padding: const EdgeInsets.all(2.0),
+                child: const CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 3,
+                ),
+              )
+            : const Icon(Icons.person_add),
+        label: const Text('Registrieren'),
       ),
     );
   }

@@ -63,6 +63,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       title: 'ScnVibe',
       routerConfig: router,
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xfff6fff7)),
     );
   }
 }

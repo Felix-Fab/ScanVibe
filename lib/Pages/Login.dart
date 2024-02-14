@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
         backgroundColor: const Color(0xff388e3c),
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Column(
             children: [
@@ -135,12 +135,8 @@ class PasswordInput extends StatelessWidget {
   }
 }
 
-class LoginButton extends StatelessWidget {
-  const LoginButton(
-      {super.key,
-      required this.emailController,
-      required this.passwordController,
-      required this.onLoginError});
+class LoginButton extends StatefulWidget {
+  const LoginButton({super.key, required this.emailController, required this.passwordController, required this.onLoginError});
 
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -148,35 +144,75 @@ class LoginButton extends StatelessWidget {
   final Function(String) onLoginError;
 
   @override
+  State<LoginButton> createState() => _LoginButtonState();
+}
+
+class _LoginButtonState extends State<LoginButton> {
+
+  var _isLoading = false;
+
+  Future<void> _onSubmit() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (widget.emailController.text.isEmpty || widget.passwordController.text.isEmpty) {
+      widget.onLoginError("Fehlende Informationen");
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: widget.emailController.text, password: widget.passwordController.text);
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (context.mounted) {
+        context.go('/navigation');
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      widget.onLoginError(e.code);
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      widget.onLoginError("Unbekannter Fehler aufgetreten");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 300,
       height: 60,
       padding: const EdgeInsets.only(top: 20),
-      child: ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(const Color(0xff4caf50)),
-            foregroundColor: MaterialStateProperty.all(Colors.white)),
-        onPressed: () async {
-          if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-            onLoginError("Fehlende Informationen");
-            return;
-          }
-
-          try {
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-
-            if (context.mounted) {
-              context.go('/navigation');
-            }
-          } on FirebaseAuthException catch (e) {
-            onLoginError(e.code);
-          } catch (e) {
-            onLoginError("Unbekannter Fehler aufgetreten");
-          }
-        },
-        child: const Text('Login'),
+      child: ElevatedButton.icon(
+        onPressed: _isLoading ? null : _onSubmit,
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xff4caf50)), foregroundColor: MaterialStateProperty.all(Colors.white)),
+        icon: _isLoading
+            ? Container(
+          width: 24,
+          height: 24,
+          padding: const EdgeInsets.all(2.0),
+          child: const CircularProgressIndicator(
+            color: Colors.white,
+            strokeWidth: 3,
+          ),
+        )
+            : const Icon(Icons.person_search),
+        label: const Text('Login'),
       ),
     );
   }
