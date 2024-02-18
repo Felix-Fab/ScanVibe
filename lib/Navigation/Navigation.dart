@@ -22,7 +22,7 @@ class _NavigationState extends State<Navigation> {
   final List<Widget> pages = <Widget>[
     const ProductSearch(),
     const Scanner(),
-    const Profile()
+    const ProfileWidget()
   ];
 
   final List<NavigationDestination> navigation = <NavigationDestination>[
@@ -136,7 +136,8 @@ class NavDrawer extends StatelessWidget {
       String? picture = user?.photoURL;
       photoURL = NetworkImage(picture!);
     } else {
-      photoURL = const AssetImage('assets/MaleUser.png');
+      photoURL =
+          const AssetImage('assets/Account/ProfilePicturePlaceholderWhite.png');
     }
 
     return Drawer(
@@ -155,8 +156,9 @@ class NavDrawer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 30, // Image radius
+                      radius: 30,
                       backgroundImage: photoURL,
+                      backgroundColor: Colors.transparent,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),

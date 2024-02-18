@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:scanvibe/Pages/Registration.dart';
+import 'package:scanvibe/Pages/Start/Login/Login.dart';
+import 'package:scanvibe/Pages/Start/Registration/Registration.dart';
 import 'Firebase/firebase_controller.dart';
 import 'Navigation/Navigation.dart';
-import 'Pages/Login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,12 +45,12 @@ class _MyAppState extends State<MyApp> {
         GoRoute(
           path: '/',
           pageBuilder: (context, state) => routeAnimation<void>(
-              child: const Login(), context: context, state: state),
+              child: const LoginWidget(), context: context, state: state),
         ),
         GoRoute(
           path: '/registration',
           pageBuilder: (context, state) => routeAnimation<void>(
-              child: const Registration(), context: context, state: state),
+              child: const RegistrationWidget(), context: context, state: state),
         ),
         GoRoute(
           path: '/navigation',
