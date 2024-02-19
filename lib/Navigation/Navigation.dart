@@ -7,6 +7,7 @@ import 'package:scanvibe/Pages/ProductSearch/ProductSearch.dart';
 import 'package:scanvibe/Pages/Scanner.dart';
 
 import '../Pages/Profile/Profile.dart';
+import '../QuickAlerts/ProfileEdit.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -52,48 +53,7 @@ class _NavigationState extends State<Navigation> {
         var message = '';
 
         if (context.mounted) {
-          QuickAlert.show(
-              context: context,
-              type: QuickAlertType.custom,
-              title: 'Username',
-              text: 'Bestimme deinen Username',
-              barrierDismissible: true,
-              confirmBtnText: 'Save',
-              disableBackBtn: true,
-              widget: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        alignLabelWithHint: true,
-                        hintText: "Enter Username",
-                        prefixIcon: Icon(Icons.drive_file_rename_outline)),
-                    textInputAction: TextInputAction.done,
-                    onChanged: (value) => message = value,
-                  )),
-              onConfirmBtnTap: () async {
-                if (message.isEmpty) {
-                  await QuickAlert.show(
-                    context: context,
-                    type: QuickAlertType.error,
-                    text: 'Username is required',
-                  );
-                  return;
-                }
-
-                try {
-                  user
-                      ?.updateDisplayName(message)
-                      .then((value) => Navigator.pop(context));
-                } catch (error) {
-                  if (context.mounted) {
-                    await QuickAlert.show(
-                      context: context,
-                      type: QuickAlertType.error,
-                      text: 'An unknown error has occurred',
-                    );
-                  }
-                }
-              });
+          ProfileEdit.openUserNameEditor(context, true);
         }
       }
     });

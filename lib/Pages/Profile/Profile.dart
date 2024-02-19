@@ -6,6 +6,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:scanvibe/QuickAlerts/ProfileEdit.dart';
 
 import 'ProfileModel.dart';
 
@@ -183,7 +186,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         size: 18,
                                       ),
                                       onPressed: () {
-                                        print('IconButton pressed ...');
+                                        ProfileEdit.openUserNameEditor(context, false);
                                       },
                                     ),
                                   ),
