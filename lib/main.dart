@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scanvibe/Pages/ProductDetail/ProductDetail.dart';
 import 'package:scanvibe/Pages/Start/Login/Login.dart';
 import 'package:scanvibe/Pages/Start/Registration/Registration.dart';
 import 'Firebase/firebase_controller.dart';
@@ -55,7 +56,12 @@ class _MyAppState extends State<MyApp> {
         GoRoute(
           path: '/navigation',
           pageBuilder: (context, state) => routeAnimation<void>(
-              child: const Navigation(), context: context, state: state),
+              child: Navigation(state.uri.queryParameters['pageid']), context: context, state: state),
+        ),
+        GoRoute(
+          path: '/prodcut/detail',
+          pageBuilder: (context, state) => routeAnimation<void>(
+              child: ProductDetailWidget(state.uri.queryParameters['productid']), context: context, state: state),
         )
       ],
     );

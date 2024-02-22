@@ -30,6 +30,7 @@ environment:
 dependencies:
   firebase_core: ^2.25.4
   firebase_database: ^10.2.6
+  path: any
   flutter:
     sdk: flutter
 
@@ -45,6 +46,7 @@ dependencies:
   flutterflow_ui: ^0.2.0+1
   file_picker: ^6.1.1
   firebase_storage: ^11.6.5
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:

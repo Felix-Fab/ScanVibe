@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,18 +12,21 @@ import '../Pages/Profile/Profile.dart';
 import '../QuickAlerts/ProfileEdit.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({super.key});
+  final String? pageId;
+
+  const Navigation(this.pageId, { super.key });
 
   @override
   State<Navigation> createState() => _NavigationState();
 }
 
 class _NavigationState extends State<Navigation> {
+
   User? user = FirebaseAuth.instance.currentUser;
   int _selectedIndex = 0;
 
   final List<Widget> pages = <Widget>[
-    const ProductSearch(),
+    const ProductSearchWidget(),
     const Scanner(),
     const ProfileWidget()
   ];
@@ -50,13 +55,16 @@ class _NavigationState extends State<Navigation> {
       user = FirebaseAuth.instance.currentUser;
 
       if (user?.displayName == null || user?.displayName == "") {
-        var message = '';
 
         if (context.mounted) {
           ProfileEdit.openUserNameEditor(context, true);
         }
       }
     });
+
+    if(widget.pageId != null){
+      _selectedIndex = int.parse(widget.pageId!);
+    }
 
     return Scaffold(
         body: Center(
